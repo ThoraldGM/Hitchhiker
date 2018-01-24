@@ -3,8 +3,8 @@ Scriptname HH_UnlockRecipe extends ObjectReference
 
 ;/
 
-Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180111
-Hitchhiker mod: (url pending)
+Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180122
+Hitchhiker mod: https://www.nexusmods.com/fallout4/mods/29273
 
 /;
 
