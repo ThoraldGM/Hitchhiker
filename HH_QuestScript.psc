@@ -3,28 +3,31 @@ Scriptname HH_QuestScript extends Quest
 
 ;/
 
-Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180111
-Hitchhiker mod: (url pending)
+Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180122
+Hitchhiker mod: https://www.nexusmods.com/fallout4/mods/29273
 
 SCRIPT SECTIONS:
 
-LINE 0032: PROPERTIES
-LINE ####: ON INIT
-LINE ####: HH START HITCHING
-LINE ####: ON MENU OPEN CLOSE EVENT
-LINE ####: (OPTIONAL AUTO TIME CHANGE)
-LINE ####: (OPTIONAL AUTO WEATHER CHANGE)
-LINE ####: HH SPIN CAMERA
-LINE ####: ON TIMER
-LINE ####: HH STOP SPINNING
-LINE ####: HH SET RANDOM DESTINATION
-LINE ####: HH IS IN FAR HARBOR
-LINE ####: HH IS IN NUKA WORLD
-LINE ####: IS FURNITURE
-LINE ####: HH TRY TO USE FURNITURE
-LINE ####: HH FORCE TIME
-LINE ####: HH FORCE WEATHER
-LINE ####: HH MARK TALES ON MAP
+LINE 0035: PROPERTIES
+LINE 0350: ON QUEST INIT
+LINE 0861: HH START HITCHING
+LINE 0877: ON MENU OPEN CLOSE EVENT
+LINE 1147: (OPTIONAL AUTO TIME CHANGE)
+LINE 1155: (OPTIONAL AUTO WEATHER CHANGE)
+LINE 1178: HH SPIN CAMERA
+LINE 1201: ON TIMER
+LINE 1230: HH STOP SPINNING
+LINE 1257: HH SET RANDOM DESTINATION
+LINE 1365: HH IS IN FAR HARBOR
+LINE 1434: HH IS IN NUKA WORLD
+LINE 1494: IS FURNITURE
+LINE 1533: HH TRY TO USE FURNITURE
+LINE 1554: HH FORCE TIME
+LINE 1583: HH FORCE WEATHER
+LINE 1615: HH MARK TALES ON MAP
+LINE 1657: ON PLAYER LOAD GAME
+LINE 1670: HH CHECK CHOICE CHOPPED
+LINE 1684: HH CALCULATE REWARDS
 
 /;
 
@@ -33,7 +36,7 @@ LINE ####: HH MARK TALES ON MAP
 ; ------------------------------------------------------------------------------------------------------------
 
 ; ************************************************************************************************************
-; Player menu options (23 here. Plus Force Time Now, Force Weather Now, Spin Idle Camera Now, & Restore Defaults):
+; Player menu options:
 ; ************************************************************************************************************
 GlobalVariable Property HH_OptionAlwaysCOC Auto Mandatory
 { Does player prefer CenterOnCell instead of MoveTo? }
@@ -61,6 +64,8 @@ GlobalVariable Property HH_OptionOffsetY Auto Mandatory
 { Player can choose Y offset (default: 250) }
 GlobalVariable Property HH_OptionOffsetZ Auto Mandatory
 { Player can choose Z offset (default: 500) }
+GlobalVariable Property HH_OptionSetRewards Auto Mandatory
+{ How many hitches per category trigger rewards? (default: 5) }
 GlobalVariable Property HH_OptionSetTime Auto Mandatory
 { Change time after teleport? (default: no) }
 GlobalVariable Property HH_OptionSetTimePreference Auto Mandatory
@@ -105,46 +110,161 @@ Weather Property CommonwealthRain Auto Const Mandatory
 { Rain }
 
 ; ************************************************************************************************************
-; Postcards:
+; Rewards:
 ; ************************************************************************************************************
-Book Property HH_Postcard_Bus Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Diner Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Dive Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Drive Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Factory Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Farm Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Junkyard Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Military Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Monument Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Power Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Red Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Vault Auto Const Mandatory
-{ Modforge Postcard }
-Book Property HH_Postcard_Welcome Auto Const Mandatory
-{ Modforge Postcard }
+GlobalVariable Property HH_CountAll Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountRandom Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountSpecific Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountBus Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountDiner Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountDive Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountDrive Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountFactory Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountFarm Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountJunkyard Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountMilitary Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountMonument Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountPower Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountRed Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountVault Auto Mandatory
+{ Visit tracking }
+
+GlobalVariable Property HH_VisitedDrumlin1 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedDrumlin2 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedDrumlin3 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedDrumlin4 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedDrumlin5 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSlocums1 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSlocums2 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSlocums3 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSlocums4 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSpuckies1 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSpuckies2 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSpuckies3 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSuper1 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSuper2 Auto Mandatory
+{ Corporate visit tracking }
+GlobalVariable Property HH_VisitedSuper3 Auto Mandatory
+{ Corporate visit tracking }
+
+GlobalVariable Property HH_Rewarded_Bus Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Diner Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Dive Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Drive Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Drumlin Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Factory Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Farm Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Junkyard Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Military Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Monument Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Power Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Prost Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Recipe Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Red Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Skybox Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Slocums Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Spuckies Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Super Auto Mandatory
+{ Reward tracking }
+GlobalVariable Property HH_Rewarded_Vault Auto Mandatory
+{ Reward tracking }
+
+LeveledItem Property HH_Rewards_Bus Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Diner Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Dive Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Drive Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Drumlin Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Factory Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Farm Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Junkyard Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Military Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Monument Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Power Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Prost Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Red Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Skybox Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Slocums Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Spuckies Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Super Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Thanks Auto Mandatory
+{ Rewards }
+LeveledItem Property HH_Rewards_Vault Auto Mandatory
+{ Rewards }
 
 ; ************************************************************************************************************
 ; Other CK Properties:
 ; ************************************************************************************************************
 Book Property HH_Map Auto Const Mandatory
 { Hitchhiker map }
-Book Property HH_Note_Recipe Auto Const Mandatory
-{ Dandelion Wine Recipe }
+Book Property HH_Postcard_Welcome Auto Const Mandatory
+{ Modforge Postcard }
 FormList Property HH_IsFurniture Auto Const Mandatory
 { Formlist of formlists of furnitures }
 GlobalVariable Property HH_IsSpinning Auto Mandatory
 { Is the camera currently spinning? }
+GlobalVariable Property HH_PlayerHasChoiceChopped Auto Mandatory
+{ Does player have Choice Chopped mod? }
 GlobalVariable Property HH_PlayerHasFH Auto Mandatory
 { Does player have Far Harbor DLC? }
 GlobalVariable Property HH_PlayerHasNW Auto Mandatory
@@ -163,6 +283,8 @@ GlobalVariable Property pGameHour Auto Mandatory
 { Current game hour (from vanilla CK) }
 Perk Property HH_TeleportNoFallDamage Auto Const Mandatory
 { Temp perk so teleport falls don't kill player }
+ReferenceAlias Property PlayerRefAlias Auto Const Mandatory
+{ Player Reference Alias in HH_Quest }
 Sound Property DRSVertibirdFlightLoadOpen Auto Const Mandatory
 { Teleport start sound effect }
 Sound Property OBJHijackerTeleportOut2DA Auto Const Mandatory
@@ -222,26 +344,13 @@ String[] Coc_Power
 String[] Coc_Red
 String[] Coc_Vault
 
-Int[] Visited_Bus                                                               ; Arrays track whether destinations have been visited
-Int[] Visited_Diner
-Int[] Visited_Dive
-Int[] Visited_Drive
-Int[] Visited_Factory
-Int[] Visited_Farm
-Int[] Visited_Junkyard
-Int[] Visited_Military
-Int[] Visited_Monument
-Int[] Visited_Power
-Int[] Visited_Red
-Int[] Visited_Vault
-
 ObjectReference TrinityMarker                                                   ; Covers Trinity Plaza patrol marker in HH_MarkTalesOnMap
 
 ; ------------------------------------------------------------------------------------------------------------
-; EVENT: ON INIT
+; EVENT: ON QUEST INIT
 ; ------------------------------------------------------------------------------------------------------------
 
-Event OnInit()
+Event OnQuestInit()
     Player = Game.GetPlayer()                                                   ; Player actor
     Utility.Wait(0.1)                                                           ; Wait a moment before use
     
@@ -249,20 +358,16 @@ Event OnInit()
         HH_PlayerHasPC.SetValue(1)                                              ; update HasPC global (for COC option)
     EndIf
     
-    If Player.GetItemCount(HH_Map) == 0                                         ; If player doesn't have hitchhiker map,
+    If !Utility.IsInMenuMode() && Player.GetItemCount(HH_Map) == 0              ; If player doesn't have hitchhiker map,
         HH_ShowMenu.SetValue(0)                                                 ; don't show menu when map placed in inventory
         Utility.Wait(5)                                                         ; wait 5 seconds
         Player.AddItem(HH_Map)                                                  ; spawn hitchhiker map in player inventory
+        Player.AddItem(HH_Postcard_Welcome)
+    Else
+        RegisterForMenuOpenCloseEvent("LooksMenu")                              ; Do NOT interrupt character creation process!
     EndIf
     
-    Utility.Wait(5)
-    Player.AddItem(HH_Postcard_Welcome)
-    Utility.Wait(5)
-    Player.AddItem(HH_Note_Recipe)
-    Utility.Wait(5)
-    HH_MarkTalesOnMap()
-    
-    ; ********************************************************************************************************
+   ; ********************************************************************************************************
     ; Initialize the destination arrays (hex refIDs converted to decimal)
     ; ********************************************************************************************************
 
@@ -362,7 +467,7 @@ Event OnInit()
     Go_Farm[5] = 1762027                                                        ; Greentop Nursery
     Go_Farm[6] = 1762039                                                        ; Nordhagen Beach
     Go_Farm[7] = 1762043                                                        ; Oberland Station
-    Go_Farm[8] = 1762062                                                        ; Somerville Place
+    Go_Farm[8] = 2004916                                                        ; Somerville Place
     Go_Farm[9] = 635315                                                         ; Tenpines Bluff
     Go_Farm[10] = 1762083                                                       ; The Slog
     Go_Farm[11] = 481057                                                        ; Warwick Homestead
@@ -465,26 +570,26 @@ Event OnInit()
     ; NOTE: RED ROCKETS ARE NOT IN ABC ORDER DUE TO BEING GRANDFATHERED IN FROM DISCARDED REFQUEST METHOD
 
     Go_Red = New Int[25]                                                        ; Array of Red Rockets (hex refIDs converted to decimal)
-    Go_Red[0] = 137728                                                          ; Commonwealth (-11, -16)
-    Go_Red[1] = 1367517                                                         ; Egret Tours Marina
-    Go_Red[2] = 997755                                                          ; Graygarden
-    Go_Red[3] = 2048404                                                         ; Electrical Hobbyist's Club
-    Go_Red[4] = 1082593                                                         ; Lexington Ext 06
+    Go_Red[0] = 1866305                                                         ; Commonwealth (-11, -16)
+    Go_Red[1] = 137728                                                          ; Egret Tours Marina
+    Go_Red[2] = 1898269                                                         ; Graygarden
+    Go_Red[3] = 1846213                                                         ; Electrical Hobbyist's Club
+    Go_Red[4] = 1845371                                                         ; Lexington Ext 06
     Go_Red[5] = 1882831                                                         ; Commonwealth (2, -12)
-    Go_Red[6] = 1703608                                                         ; Shaw High School
-    Go_Red[7] = 651672                                                          ; Neponset Park
-    Go_Red[8] = 1934605                                                         ; Commonwealth (12, 4)
-    Go_Red[9] = 1846213                                                         ; Commonwealth (-3, -9)
-    Go_Red[10] = 1418985                                                        ; Glowing Sea
-    Go_Red[11] = 1898269                                                        ; Commonwealth (-3, 2)
-    Go_Red[12] = 1186505                                                        ; Lexington Ext 02
-    Go_Red[13] = 1817557                                                        ; Wilson Atomatoys Factory
-    Go_Red[14] = 1997542                                                        ; Commonwealth (20, 8)
-    Go_Red[15] = 1289039                                                        ; Red Rocket Settlement
-    Go_Red[16] = 1866305                                                        ; Atom Cats Garage
-    Go_Red[17] = 1845371                                                        ; Commonwealth (2, -10)
-    Go_Red[18] = 1933571                                                        ; Commonwealth (5, -21)
-    Go_Red[19] = 421969                                                         ; Nahant Red Rocket
+    Go_Red[6] = 1933571                                                         ; Shaw High School
+    Go_Red[7] = 1934605                                                         ; Neponset Park
+    Go_Red[8] = 1997542                                                         ; Commonwealth (12, 4)
+    Go_Red[9] = 1367517                                                         ; Commonwealth (-3, -9)
+    Go_Red[10] = 2048404                                                        ; Glowing Sea
+    Go_Red[11] = 1418985                                                        ; Commonwealth (-3, 2)
+    Go_Red[12] = 997755                                                         ; Lexington Ext 02
+    Go_Red[13] = 1186505                                                        ; Wilson Atomatoys Factory
+    Go_Red[14] = 1082593                                                        ; Commonwealth (20, 8)
+    Go_Red[15] = 421969                                                         ; Red Rocket Settlement
+    Go_Red[16] = 651672                                                         ; Atom Cats Garage
+    Go_Red[17] = 1289039                                                        ; Commonwealth (2, -10)
+    Go_Red[18] = 1703608                                                        ; Commonwealth (5, -21)
+    Go_Red[19] = 1817557                                                        ; Nahant Red Rocket
     Go_Red[20] = 19823                                                          ; DLC FH: Beaver Creek Red Rocket
     Go_Red[21] = 50458                                                          ; DLC FH: Harbor North Red Rocket
     Go_Red[22] = 183954                                                         ; DLC FH: Harbor Southwest Red Rocket
@@ -533,7 +638,7 @@ Event OnInit()
     Coc_Diner[10] = "SandyCovesHomeExt"
     Coc_Diner[11] = "FensSquare"
     Coc_Diner[12] = "QuincyRuinsExt04"
-    Coc_Diner[13] = "DmndDugoutInn01"
+    Coc_Diner[13] = "DLC04HubFizztopGrille01"
     Coc_Diner[14] = "ForestGroveMarshExt02"
     Coc_Diner[15] = "ForestGroveMarshExt02"
     Coc_Diner[16] = "GeneralAtomicsGalleriaExt02"
@@ -603,7 +708,7 @@ Event OnInit()
     Coc_Farm[5] = "GreentopNurseryExt"
     Coc_Farm[6] = "NordhagenBeach"
     Coc_Farm[7] = "OberlandStation"
-    Coc_Farm[8] = "SomervillePlace02"
+    Coc_Farm[8] = "Farm05Ext"
     Coc_Farm[9] = "TenPinesBluff"
     Coc_Farm[10] = "TheSlogExt02"
     Coc_Farm[11] = "WarwickHomesteadExt"
@@ -747,65 +852,9 @@ Event OnInit()
     Coc_Vault[8] = "Vault114"
     Coc_Vault[9] = "DLC03Vault118"
 
-    ; ********************************************************************************************************
-    ; Initialize the arrays that hold visited flags (for hitchhike tracking and granting rewards)
-    ; ********************************************************************************************************
-
-    Visited_Bus = New Int[10]                                                   ; Declare size of arrays that hold visited flags
-    Visited_Diner = New Int[30]
-    Visited_Dive = New Int[13]
-    Visited_Drive = New Int[12]
-    Visited_Factory = New Int[12]
-    Visited_Farm = New Int[12]
-    Visited_Junkyard = New Int[20]
-    Visited_Military = New Int[20]
-    Visited_Monument = New Int[30]
-    Visited_Power = New Int[15]
-    Visited_Red = New Int[25]
-    Visited_Vault = New Int[10]
+    HH_CheckChoiceChopped()                                                     ; Does player have Choice Chopped mod?
     
-    Int x = 1
-    
-    While x < 13
-        Int[] ArrInit
-        
-        If x == BUS_SHELTERS
-            ArrInit = Visited_Bus                                               ; Altering array copy changes copy AND the original!
-        ElseIf x == DINERS
-            ArrInit = Visited_Diner
-        ElseIf x == DIVES
-            ArrInit = Visited_Dive
-        ElseIf x == DRIVE_INS
-            ArrInit = Visited_Drive
-        ElseIf x == FACTORIES
-            ArrInit = Visited_Factory
-        ElseIf x == FARMS
-            ArrInit = Visited_Farm
-        ElseIf x == JUNKYARDS
-            ArrInit = Visited_Junkyard
-        ElseIf x == MILITARY_BASES
-            ArrInit = Visited_Military
-        ElseIf x == MONUMENTS
-            ArrInit = Visited_Monument
-        ElseIf x == POWER_LIFTS
-            ArrInit = Visited_Power
-        ElseIf x == RED_ROCKETS
-            ArrInit = Visited_Red
-        Else
-            ArrInit = Visited_Vault
-        EndIf
-        
-        Int y = 0
-        Int ArrLen = ArrInit.Length
-        
-        While y < ArrLen
-            ArrInit[y] = 0                                                      ; Initialize array element
-            y += 1                                                              ; and repeat for each element in array
-        EndWhile
-        
-        x += 1                                                                  ; Repeat for the next array in list
-    EndWhile
-
+    RegisterForRemoteEvent(PlayerRefAlias, "OnPlayerLoadGame")                  ; Will check for mod on every game load
 EndEvent
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -829,10 +878,24 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
-    UnregisterForMenuOpenCloseEvent("PipboyMenu")                               ; Cancel player button spams
+    If (asMenuName == "LooksMenu")
+        If (!abOpening)
+            UnregisterForMenuOpenCloseEvent("LooksMenu")                        ; Cancel player button spams
+            
+            If Player.GetItemCount(HH_Map) == 0                                 ; If player doesn't have hitchhiker map,
+                HH_ShowMenu.SetValue(0)                                         ; don't show menu when map placed in inventory
+                Utility.Wait(3)                                                 ; wait 3 seconds
+                Player.AddItem(HH_Map)                                          ; spawn hitchhiker map in player inventory
+                Player.AddItem(HH_Postcard_Welcome)
+            EndIf
+        EndIf
+    EndIf
     
-    If (asMenuName== "PipboyMenu")                                              ; When the Pip-Boy
-        If (!abOpening)                                                         ; closes,
+    If (asMenuName == "PipboyMenu")                                             ; When the Pip-Boy
+        If (!abOpening)                                                         ; closes...
+        
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")                       ; Cancel player button spams
+
             ; Thanks to ehtyeci for Vault Boy list!
             ; Thread: https://forums.nexusmods.com/index.php?/topic/6271136-i-there-a-list-of-perks-in-their-swf-forms/
             ; VB Viewer: http://powback.com/public/Fallout/?mobile=true
@@ -897,11 +960,57 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
                 DestinationMarker.MoveTo(Game.GetFormFromFile(Go_Diner[TargetID], Go_File) as ObjectReference)
                 TargetObject = Game.GetFormFromFile(Go_Diner[TargetID], Go_File) as ObjectReference
                 Hex2Dec = Go_Diner[TargetID]
-            ElseIf Category == DIVES
+                
+                If TargetID == 5                                                ; Diamond City "skybox" diner
+                    If HH_Rewarded_Skybox.GetValue() as Int == 0
+                        Int SpinSeconds = HH_OptionSpinDuration.GetValue() as Int
+                        SpinSeconds += 30
+                        StartTimer(SpinSeconds, 4)
+                    EndIf
+                EndIf
+                
+                If TargetID == 6                                                ; Drumlin Diner corporate tracking
+                    HH_VisitedDrumlin1.SetValue(1)
+                ElseIf TargetID == 7
+                    HH_VisitedDrumlin2.SetValue(1)
+                ElseIf TargetID == 8
+                    HH_VisitedDrumlin3.SetValue(1)
+                ElseIf TargetID == 9
+                    HH_VisitedDrumlin4.SetValue(1)
+                ElseIf TargetID == 10
+                    HH_VisitedDrumlin5.SetValue(1)
+                ElseIf TargetID == 17
+                    HH_VisitedSpuckies1.SetValue(1)                             ; Joe's Spuckies corporate tracking
+                ElseIf TargetID == 18
+                    HH_VisitedSpuckies2.SetValue(1)
+                ElseIf TargetID == 19
+                    HH_VisitedSpuckies3.SetValue(1)
+                ElseIf TargetID == 26
+                    HH_VisitedSlocums1.SetValue(1)                              ; Slocum's Joe corporate tracking
+                ElseIf TargetID == 27
+                    HH_VisitedSlocums2.SetValue(1)
+                ElseIf TargetID == 28
+                    HH_VisitedSlocums3.SetValue(1)
+                ElseIf TargetID == 29
+                    HH_VisitedSlocums4.SetValue(1)
+                Else
+                    ; Not a diner with corporate visit tracking
+                EndIf
+                
+           ElseIf Category == DIVES
                 Coc_Target = Coc_Dive[TargetID]
                 DestinationMarker.MoveTo(Game.GetFormFromFile(Go_Dive[TargetID], Go_File) as ObjectReference)
                 TargetObject = Game.GetFormFromFile(Go_Dive[TargetID], Go_File) as ObjectReference
                 Hex2Dec = Go_Dive[TargetID]
+                
+                If TargetID == 7                                                ; Prost Bar (Cheers)
+                    If HH_Rewarded_Prost.GetValue() as Int == 0
+                        Int SpinSeconds = HH_OptionSpinDuration.GetValue() as Int
+                        SpinSeconds += 30
+                        StartTimer(SpinSeconds, 5)
+                    EndIf
+                EndIf
+
             ElseIf Category == DRIVE_INS
                 Coc_Target = Coc_Drive[TargetID]
                 DestinationMarker.MoveTo(Game.GetFormFromFile(Go_Drive[TargetID], Go_File) as ObjectReference)
@@ -912,6 +1021,17 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
                 DestinationMarker.MoveTo(Game.GetFormFromFile(Go_Factory[TargetID], Go_File) as ObjectReference)
                 TargetObject = Game.GetFormFromFile(Go_Factory[TargetID], Go_File) as ObjectReference
                 Hex2Dec = Go_Factory[TargetID]
+                
+                If TargetID == 7                                                ; Super Duper Mart corporate tracking
+                    HH_VisitedSuper1.SetValue(1)
+                ElseIf TargetID == 8
+                    HH_VisitedSuper2.SetValue(1)
+                ElseIf TargetID == 9
+                    HH_VisitedSuper3.SetValue(1)
+                Else
+                    ; Not a factory with corporate visit tracking
+                EndIf
+ 
             ElseIf Category == FARMS
                 Coc_Target = Coc_Farm[TargetID]
                 DestinationMarker.MoveTo(Game.GetFormFromFile(Go_Farm[TargetID], Go_File) as ObjectReference)
@@ -1046,6 +1166,10 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
             EndIf
             
             StartTimer(10, 2)                                                           ; Remove HH_TeleportNoFallDamage perk in 10 seconds
+            
+            Int SpinSeconds = HH_OptionSpinDuration.GetValue() as Int
+            SpinSeconds += 30
+            StartTimer(SpinSeconds, 3)                                                  ; Calculate rewards 30 seconds after spin duration
         EndIf
     EndIf
 EndEvent
@@ -1087,6 +1211,16 @@ Event OnTimer(int aiTimerID)                                                    
             Player.ResetHealthAndLimbs()                                        ; reset health and limbs
         EndIf
         
+        Int CountAll = HH_CountAll.GetValue() as Int
+        HH_CountAll.SetValue(CountAll + 1)
+    ElseIf aiTimerID == 3
+        HH_CalculateRewards()
+    ElseIf aiTimerID == 4
+        Player.AddItem(HH_Rewards_Skybox)
+        HH_Rewarded_Skybox.SetValue(1)
+    ElseIf aiTimerID == 5
+        Player.AddItem(HH_Rewards_Prost)
+        HH_Rewarded_Prost.SetValue(1)
     Else
         ; Placeholder for additional timers
     EndIf
@@ -1517,5 +1651,251 @@ Function HH_MarkTalesOnMap()
         i += 1
     EndWhile
     
-    Debug.TraceAndBox("Hitchhiker: Congratulations!")
+EndFunction
+
+; ------------------------------------------------------------------------------------------------------------
+; EVENT: ON PLAYER LOAD GAME
+; ------------------------------------------------------------------------------------------------------------
+
+Event Actor.OnPlayerLoadGame(Actor akSender)
+    UnregisterForRemoteEvent(PlayerRefAlias, "OnPlayerLoadGame")                ; Should be automatic? But just in case...
+    
+    HH_CheckChoiceChopped()                                                     ; Does player have Choice Chopped mod?
+    
+    RegisterForRemoteEvent(PlayerRefAlias, "OnPlayerLoadGame")                  ; Will check for mod on every game load
+
+EndEvent
+
+; ------------------------------------------------------------------------------------------------------------
+; CUSTOM FUNCTION: HH CHECK CHOICE CHOPPED
+; ------------------------------------------------------------------------------------------------------------
+
+Function HH_CheckChoiceChopped()
+    Bool ChoiceChoppedInstalled = Game.IsPluginInstalled("ChoiceChopped.esp")   ; Does player have Choice Chopped mod?
+    
+    If ChoiceChoppedInstalled
+        HH_PlayerHasChoiceChopped.SetValue(1)
+    Else
+        HH_PlayerHasChoiceChopped.SetValue(0)
+    EndIf
+EndFunction
+
+; ------------------------------------------------------------------------------------------------------------
+; CUSTOM FUNCTION: HH CALCULATE REWARDS
+; ------------------------------------------------------------------------------------------------------------
+
+Function HH_CalculateRewards()
+    Int Req = HH_OptionSetRewards.GetValue() as Int                             ; Default is 5 per category but player can change in menu
+                                                                                ; Category reqs can be repeat visits or hitches to new sites
+    Int CountBus = HH_CountBus.GetValue() as Int
+    Int CountDiner = HH_CountDiner.GetValue() as Int
+    Int CountDive = HH_CountDive.GetValue() as Int
+    Int CountDrive = HH_CountDrive.GetValue() as Int
+    Int CountFactory = HH_CountFactory.GetValue() as Int
+    Int CountFarm = HH_CountFarm.GetValue() as Int
+    Int CountJunkyard = HH_CountJunkyard.GetValue() as Int
+    Int CountMilitary = HH_CountMilitary.GetValue() as Int
+    Int CountMonument = HH_CountMonument.GetValue() as Int
+    Int CountPower = HH_CountPower.GetValue() as Int
+    Int CountRed = HH_CountRed.GetValue() as Int
+    Int CountVault = HH_CountVault.GetValue() as Int
+
+    Int Rewarded_Bus = HH_Rewarded_Bus.GetValue() as Int
+    Int Rewarded_Diner = HH_Rewarded_Diner.GetValue() as Int
+    Int Rewarded_Dive = HH_Rewarded_Dive.GetValue() as Int
+    Int Rewarded_Drive = HH_Rewarded_Drive.GetValue() as Int
+    Int Rewarded_Factory = HH_Rewarded_Factory.GetValue() as Int
+    Int Rewarded_Farm = HH_Rewarded_Farm.GetValue() as Int
+    Int Rewarded_Junkyard = HH_Rewarded_Junkyard.GetValue() as Int
+    Int Rewarded_Military = HH_Rewarded_Military.GetValue() as Int
+    Int Rewarded_Monument = HH_Rewarded_Monument.GetValue() as Int
+    Int Rewarded_Power = HH_Rewarded_Power.GetValue() as Int
+    Int Rewarded_Red = HH_Rewarded_Red.GetValue() as Int
+    Int Rewarded_Vault = HH_Rewarded_Vault.GetValue() as Int
+
+    Int Category = HH_Category.GetValue() as Int
+    Int RewardWait = HH_OptionSetRewards.GetValue() as Int
+    
+    If Category == BUS_SHELTERS || !RewardWait
+        If CountBus >= Req && !Rewarded_Bus
+            Player.AddItem(HH_Rewards_Bus)
+            HH_Rewarded_Bus.SetValue(1)
+        EndIf
+    EndIf
+    
+    If Category == DINERS || !RewardWait
+        If CountDiner >= Req && !Rewarded_Diner
+            Player.AddItem(HH_Rewards_Diner)
+            HH_Rewarded_Diner.SetValue(1)
+        EndIf
+    EndIf
+    
+    If Category == DIVES || !RewardWait
+        If CountDive >= Req && !Rewarded_Dive
+            Player.AddItem(HH_Rewards_Dive)
+            HH_Rewarded_Dive.SetValue(1)
+        EndIf
+    EndIf
+    
+    If Category == DRIVE_INS || !RewardWait
+        If CountDrive >= Req && !Rewarded_Drive
+            Player.AddItem(HH_Rewards_Drive)
+            HH_Rewarded_Drive.SetValue(1)
+        EndIf
+    EndIf
+    
+    If Category == FACTORIES || !RewardWait
+        If CountFactory >= Req && !Rewarded_Factory
+            Player.AddItem(HH_Rewards_Factory)
+            HH_Rewarded_Factory.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == FARMS || !RewardWait
+        If CountFarm >= Req && !Rewarded_Farm
+            Player.AddItem(HH_Rewards_Farm)
+            HH_Rewarded_Farm.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == JUNKYARDS || !RewardWait
+        If CountJunkyard >= Req && !Rewarded_Junkyard
+            Player.AddItem(HH_Rewards_Junkyard)
+            HH_Rewarded_Junkyard.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == MILITARY_BASES || !RewardWait
+        If CountMilitary >= Req && !Rewarded_Military
+            Player.AddItem(HH_Rewards_Military)
+            HH_Rewarded_Military.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == MONUMENTS || !RewardWait
+        If CountMonument >= Req && !Rewarded_Monument
+            Player.AddItem(HH_Rewards_Monument)
+            HH_Rewarded_Monument.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == POWER_LIFTS || !RewardWait
+        If CountPower >= Req && !Rewarded_Power
+            Player.AddItem(HH_Rewards_Power)
+            HH_Rewarded_Power.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == RED_ROCKETS || !RewardWait
+        If CountRed >= Req && !Rewarded_Red
+            Player.AddItem(HH_Rewards_Red)
+            HH_Rewarded_Red.SetValue(1)
+        EndIf
+    EndIf
+
+    If Category == VAULTS || !RewardWait
+        If CountVault >= Req && !Rewarded_Vault
+            Player.AddItem(HH_Rewards_Vault)
+            HH_Rewarded_Vault.SetValue(1)
+        EndIf
+    EndIf
+
+    If HH_Rewarded_Recipe.GetValue() as Int == 0
+        ; Refresh to current values for grand prize calculation
+        Rewarded_Bus = HH_Rewarded_Bus.GetValue() as Int
+        Rewarded_Diner = HH_Rewarded_Diner.GetValue() as Int
+        Rewarded_Dive = HH_Rewarded_Dive.GetValue() as Int
+        Rewarded_Drive = HH_Rewarded_Drive.GetValue() as Int
+        Rewarded_Factory = HH_Rewarded_Factory.GetValue() as Int
+        Rewarded_Farm = HH_Rewarded_Farm.GetValue() as Int
+        Rewarded_Junkyard = HH_Rewarded_Junkyard.GetValue() as Int
+        Rewarded_Military = HH_Rewarded_Military.GetValue() as Int
+        Rewarded_Monument = HH_Rewarded_Monument.GetValue() as Int
+        Rewarded_Power = HH_Rewarded_Power.GetValue() as Int
+        Rewarded_Red = HH_Rewarded_Red.GetValue() as Int
+        Rewarded_Vault = HH_Rewarded_Vault.GetValue() as Int
+
+        Int[] CheckReq = New Int[12]
+        CheckReq[0] = Rewarded_Bus
+        CheckReq[1] = Rewarded_Diner
+        CheckReq[2] = Rewarded_Dive
+        CheckReq[3] = Rewarded_Drive
+        CheckReq[4] = Rewarded_Factory
+        CheckReq[5] = Rewarded_Farm
+        CheckReq[6] = Rewarded_Junkyard
+        CheckReq[7] = Rewarded_Military
+        CheckReq[8] = Rewarded_Monument
+        CheckReq[9] = Rewarded_Power
+        CheckReq[10] = Rewarded_Red
+        CheckReq[11] = Rewarded_Vault
+
+        Int i = 0
+        Int Failed = 0
+        
+        While i < 12 && !Failed
+            If CheckReq[i] == 0
+                Failed = 1
+            EndIf
+            
+            i += 1
+        EndWhile
+        
+        If !Failed                                                              ; If req has been met in all categories,
+            Player.AddItem(HH_Rewards_Thanks)                                   ; award the grand prize list to player
+            HH_Rewarded_Recipe.SetValue(1)
+        EndIf
+    EndIf
+    
+    ; CORPORATE REWARDS
+    If HH_Rewarded_Drumlin.GetValue() as Int == 0
+        Int VisitedDrumlin1 = HH_VisitedDrumlin1.GetValue() as Int
+        Int VisitedDrumlin2 = HH_VisitedDrumlin2.GetValue() as Int
+        Int VisitedDrumlin3 = HH_VisitedDrumlin3.GetValue() as Int
+        Int VisitedDrumlin4 = HH_VisitedDrumlin4.GetValue() as Int
+        Int VisitedDrumlin5 = HH_VisitedDrumlin5.GetValue() as Int
+
+        If VisitedDrumlin1 && VisitedDrumlin2 && VisitedDrumlin3 && VisitedDrumlin4 && VisitedDrumlin5
+            Player.AddItem(HH_Rewards_Drumlin)
+            HH_Rewarded_Drumlin.SetValue(1)
+        EndIf
+    EndIf
+    
+    If HH_Rewarded_Slocums.GetValue() as Int == 0
+        Int VisitedSlocums1 = HH_VisitedSlocums1.GetValue() as Int
+        Int VisitedSlocums2 = HH_VisitedSlocums2.GetValue() as Int
+        Int VisitedSlocums3 = HH_VisitedSlocums3.GetValue() as Int
+        Int VisitedSlocums4 = HH_VisitedSlocums4.GetValue() as Int
+
+        If VisitedSlocums1 && VisitedSlocums2 && VisitedSlocums3 && VisitedSlocums4
+            Player.AddItem(HH_Rewards_Slocums)
+            HH_Rewarded_Slocums.SetValue(1)
+        EndIf
+    EndIf
+
+    If HH_Rewarded_Spuckies.GetValue() as Int == 0
+        Int VisitedSpuckies1 = HH_VisitedSpuckies1.GetValue() as Int
+        Int VisitedSpuckies2 = HH_VisitedSpuckies2.GetValue() as Int
+        Int VisitedSpuckies3 = HH_VisitedSpuckies3.GetValue() as Int
+
+        If VisitedSpuckies1 && VisitedSpuckies2 && VisitedSpuckies3
+            Player.AddItem(HH_Rewards_Spuckies)
+            HH_Rewarded_Spuckies.SetValue(1)
+        EndIf
+    EndIf
+
+    If HH_Rewarded_Super.GetValue() as Int == 0
+        Int VisitedSuper1 = HH_VisitedSuper1.GetValue() as Int
+        Int VisitedSuper2 = HH_VisitedSuper2.GetValue() as Int
+        Int VisitedSuper3 = HH_VisitedSuper3.GetValue() as Int
+
+        If HH_PlayerHasFH.GetValue() as Int == 0                                ; If player does NOT have Far Harbor DLC,
+            VisitedSuper1 = 1                                                   ; do not require Far Harbor Super Duper Mart
+        EndIf
+        
+        If VisitedSuper1 && VisitedSuper2 && VisitedSuper3
+            Player.AddItem(HH_Rewards_Super)
+            HH_Rewarded_Super.SetValue(1)
+        EndIf
+    EndIf
+
 EndFunction
