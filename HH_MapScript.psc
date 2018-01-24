@@ -3,50 +3,51 @@ Scriptname HH_MapScript extends ObjectReference
 
 ;/
 
-Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180110
-Hitchhiker mod: (url pending)
+Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180122
+Hitchhiker mod: https://www.nexusmods.com/fallout4/mods/29273
 
 SCRIPT SECTIONS:
 
-LINE 0054: PROPERTIES
-LINE ####: ON READ
-LINE ####: HH SHOW MAIN MENU
-LINE ####: HH SHOW THE ANY MENU
-LINE ####: HH SHOW THE SPECIFIC MENU
-LINE ####: HH SHOW MENU BUS SHELTERS
-LINE ####: HH SHOW MENU DINERS 1
-LINE ####: HH SHOW MENU DINERS 2
-LINE ####: HH SHOW MENU DINERS 3
-LINE ####: HH SHOW MENU DIVES
-LINE ####: HH SHOW MENU DRIVE INS
-LINE ####: HH SHOW MENU FACTORIES
-LINE ####: HH SHOW MENU FARMS
-LINE ####: HH SHOW MENU JUNKYARDS 1
-LINE ####: HH SHOW MENU JUNKYARDS 2
-LINE ####: HH SHOW MENU MILITARY BASES 1
-LINE ####: HH SHOW MENU MILITARY BASES 2
-LINE ####: HH SHOW MENU MONUMENTS 1
-LINE ####: HH SHOW MENU MONUMENTS 2
-LINE ####: HH SHOW MENU MONUMENTS 3
-LINE ####: HH SHOW MENU POWER LIFTS 1
-LINE ####: HH SHOW MENU POWER LIFTS 2
-LINE ####: HH SHOW MENU RED ROCKET 1
-LINE ####: HH SHOW MENU RED ROCKET 2
-LINE ####: HH SHOW MENU VAULTS
-LINE ####: HH SHOW DLC OPTIONS
-LINE ####: HH SHOW CAMERA OPTIONS
-LINE ####: HH SHOW SET MAX
-LINE ####: HH SHOW SET MIN
-LINE ####: HH SHOW SET DURATION
-LINE ####: HH SHOW TELEPORT OPTIONS
-LINE ####: HH SHOW SET TIME
-LINE ####: HH SHOW SET WEATHER
-LINE ####: HH SHOW ADVANCED OPTIONS
-LINE ####: HH SHOW SET X
-LINE ####: HH SHOW SET Y
-LINE ####: HH SHOW SET Z
-LINE ####: HH SET MENU DEFAULTS
-LINE ####: ON MENU OPEN CLOSE EVENT
+LINE 0055: PROPERTIES
+LINE 0271: ON READ
+LINE 0309: HH SHOW MAIN MENU
+LINE 0350: HH SHOW THE ANY MENU
+LINE 0376: HH SHOW THE SPECIFIC MENU
+LINE 0412: HH SHOW MENU BUS SHELTERS
+LINE 0434: HH SHOW MENU DINERS 1
+LINE 0458: HH SHOW MENU DINERS 2
+LINE 0482: HH SHOW MENU DINERS 3
+LINE 0504: HH SHOW MENU DIVES
+LINE 0526: HH SHOW MENU DRIVE INS
+LINE 0548: HH SHOW MENU FACTORIES
+LINE 0570: HH SHOW MENU FARMS
+LINE 0592: HH SHOW MENU JUNKYARDS 1
+LINE 0616: HH SHOW MENU JUNKYARDS 2
+LINE 0638: HH SHOW MENU MILITARY BASES 1
+LINE 0662: HH SHOW MENU MILITARY BASES 2
+LINE 0684: HH SHOW MENU MONUMENTS 1
+LINE 0708: HH SHOW MENU MONUMENTS 2
+LINE 0732: HH SHOW MENU MONUMENTS 3
+LINE 0754: HH SHOW MENU POWER LIFTS 1
+LINE 0795: HH SHOW MENU POWER LIFTS 2
+LINE 0836: HH SHOW MENU RED ROCKET 1
+LINE 0887: HH SHOW MENU RED ROCKET 2
+LINE 0938: HH SHOW MENU VAULTS
+LINE 0960: HH SHOW DLC OPTIONS
+LINE 0998: HH SHOW CAMERA OPTIONS
+LINE 1028: HH SHOW SET MAX
+LINE 1060: HH SHOW SET MIN
+LINE 1092: HH SHOW SET DURATION
+LINE 1124: HH SHOW TELEPORT OPTIONS
+LINE 1180: HH SHOW SET TIME
+LINE 1216: HH SHOW SET WEATHER
+LINE 1252: HH SHOW ADVANCED OPTIONS
+LINE 1291: HH SHOW SET REWARDS
+LINE 1325: HH SHOW SET X
+LINE 1357: HH SHOW SET Y
+LINE 1389: HH SHOW SET Z
+LINE 1421: HH SET MENU DEFAULTS
+LINE 1449: ON MENU OPEN CLOSE EVENT
 
 /;
  
@@ -55,7 +56,7 @@ LINE ####: ON MENU OPEN CLOSE EVENT
 ; ------------------------------------------------------------------------------------------------------------
 
 ; ************************************************************************************************************
-; Player menu options (23 here. Plus Force Time Now, Force Weather Now, Spin Idle Camera Now, & Restore Defaults):
+; Player menu options:
 ; ************************************************************************************************************
 GlobalVariable Property HH_OptionAlwaysCOC Auto Mandatory
 { Does player prefer CenterOnCell instead of MoveTo? }
@@ -83,6 +84,8 @@ GlobalVariable Property HH_OptionOffsetY Auto Mandatory
 { Player can choose Y offset (default: 250) }
 GlobalVariable Property HH_OptionOffsetZ Auto Mandatory
 { Player can choose Z offset (default: 500) }
+GlobalVariable Property HH_OptionSetRewards Auto Mandatory
+{ How many hitches per category trigger rewards? (default: 5) }
 GlobalVariable Property HH_OptionSetTime Auto Mandatory
 { Change time after teleport? (default: no) }
 GlobalVariable Property HH_OptionSetTimePreference Auto Mandatory
@@ -176,12 +179,48 @@ Message Property HH_MenuMessageSetWeather Auto Const Mandatory
 
 Message Property HH_MenuMessageAdvancedOptions Auto Const Mandatory
 { AdvancedOptions menu }
+Message Property HH_MenuMessageSetRewards Auto Const Mandatory
+{ SetRewards menu }
 Message Property HH_MenuMessageSetX Auto Const Mandatory
 { SetX menu }
 Message Property HH_MenuMessageSetY Auto Const Mandatory
 { SetY menu }
 Message Property HH_MenuMessageSetZ Auto Const Mandatory
 { SetZ menu }
+
+; ************************************************************************************************************
+; Rewards:
+; ************************************************************************************************************
+GlobalVariable Property HH_CountAll Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountRandom Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountSpecific Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountBus Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountDiner Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountDive Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountDrive Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountFactory Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountFarm Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountJunkyard Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountMilitary Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountMonument Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountPower Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountRed Auto Mandatory
+{ Visit tracking }
+GlobalVariable Property HH_CountVault Auto Mandatory
+{ Visit tracking }
 
 ; ************************************************************************************************************
 ; Everything else:
@@ -324,6 +363,8 @@ Function HH_ShowTheAnyMenu()
     
     If Selected > 0 && Selected <= 12
         HHQuestScript.HH_SetRandomDestination(Selected)
+        Int CountRandom = HH_CountRandom.GetValue() as Int
+        HH_CountRandom.SetValue(CountRandom + 1)
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -377,6 +418,11 @@ Function HH_ShowMenuBusShelters()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(BUS_SHELTERS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountBus = HH_CountBus.GetValue() as Int
+        HH_CountBus.SetValue(CountBus + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+        
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -394,6 +440,11 @@ Function HH_ShowMenuDiners1()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(DINERS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountDiner = HH_CountDiner.GetValue() as Int
+        HH_CountDiner.SetValue(CountDiner + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     ElseIf Selected == 10
@@ -413,6 +464,11 @@ Function HH_ShowMenuDiners2()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(DINERS)
         HH_TargetID.SetValue((Selected + 10))
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountDiner = HH_CountDiner.GetValue() as Int
+        HH_CountDiner.SetValue(CountDiner + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     ElseIf Selected == 10
@@ -432,6 +488,11 @@ Function HH_ShowMenuDiners3()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(DINERS)
         HH_TargetID.SetValue((Selected + 20))
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountDiner = HH_CountDiner.GetValue() as Int
+        HH_CountDiner.SetValue(CountDiner + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -449,6 +510,11 @@ Function HH_ShowMenuDives()
     If Selected >= 0 && Selected <= 12
         HH_Category.SetValue(DIVES)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountDive = HH_CountDive.GetValue() as Int
+        HH_CountDive.SetValue(CountDive + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -466,6 +532,11 @@ Function HH_ShowMenuDriveIns()
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(DRIVE_INS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountDrive = HH_CountDrive.GetValue() as Int
+        HH_CountDrive.SetValue(CountDrive + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -483,6 +554,11 @@ Function HH_ShowMenuFactories()
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(FACTORIES)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountFactory = HH_CountFactory.GetValue() as Int
+        HH_CountFactory.SetValue(CountFactory + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -500,6 +576,11 @@ Function HH_ShowMenuFarms()
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(FARMS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountFarm = HH_CountFarm.GetValue() as Int
+        HH_CountFarm.SetValue(CountFarm + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -517,6 +598,11 @@ Function HH_ShowMenuJunkyards1()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(JUNKYARDS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountJunkyard = HH_CountJunkyard.GetValue() as Int
+        HH_CountJunkyard.SetValue(CountJunkyard + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     ElseIf Selected == 10
@@ -536,6 +622,11 @@ Function HH_ShowMenuJunkyards2()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(JUNKYARDS)
         HH_TargetID.SetValue((Selected + 10))
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountJunkyard = HH_CountJunkyard.GetValue() as Int
+        HH_CountJunkyard.SetValue(CountJunkyard + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -553,6 +644,11 @@ Function HH_ShowMenuMilitaryBases1()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MILITARY_BASES)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountMilitary = HH_CountMilitary.GetValue() as Int
+        HH_CountMilitary.SetValue(CountMilitary + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     ElseIf Selected == 10
@@ -572,6 +668,11 @@ Function HH_ShowMenuMilitaryBases2()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MILITARY_BASES)
         HH_TargetID.SetValue((Selected + 10))
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountMilitary = HH_CountMilitary.GetValue() as Int
+        HH_CountMilitary.SetValue(CountMilitary + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -589,6 +690,11 @@ Function HH_ShowMenuMonuments1()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MONUMENTS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountMonument = HH_CountMonument.GetValue() as Int
+        HH_CountMonument.SetValue(CountMonument + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     ElseIf Selected == 10
@@ -608,6 +714,11 @@ Function HH_ShowMenuMonuments2()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MONUMENTS)
         HH_TargetID.SetValue((Selected + 10))
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountMonument = HH_CountMonument.GetValue() as Int
+        HH_CountMonument.SetValue(CountMonument + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     ElseIf Selected == 10
@@ -627,6 +738,11 @@ Function HH_ShowMenuMonuments3()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MONUMENTS)
         HH_TargetID.SetValue((Selected + 20))
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountMonument = HH_CountMonument.GetValue() as Int
+        HH_CountMonument.SetValue(CountMonument + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -665,6 +781,11 @@ Function HH_ShowMenuPowerLifts1()
     
     If Selected >= 0 && Selected <= 6
         HH_Category.SetValue(POWER_LIFTS)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountPower = HH_CountPower.GetValue() as Int
+        HH_CountPower.SetValue(CountPower + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     EndIf
@@ -701,6 +822,11 @@ Function HH_ShowMenuPowerLifts2()
     
     If Selected >= 0 && Selected <= 7
         HH_Category.SetValue(POWER_LIFTS)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountPower = HH_CountPower.GetValue() as Int
+        HH_CountPower.SetValue(CountPower + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     EndIf
@@ -747,6 +873,11 @@ Function HH_ShowMenuRedRocket1()
     
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(RED_ROCKETS)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountRed = HH_CountRed.GetValue() as Int
+        HH_CountRed.SetValue(CountRed + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     EndIf
@@ -793,6 +924,11 @@ Function HH_ShowMenuRedRocket2()
     
     If Selected >= 0 && Selected <= 12
         HH_Category.SetValue(RED_ROCKETS)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountRed = HH_CountRed.GetValue() as Int
+        HH_CountRed.SetValue(CountRed + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     EndIf
@@ -808,6 +944,11 @@ Function HH_ShowMenuVaults()
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(VAULTS)
         HH_TargetID.SetValue(Selected)
+        Int CountSpecific = HH_CountSpecific.GetValue() as Int
+        Int CountVault = HH_CountVault.GetValue() as Int
+        HH_CountVault.SetValue(CountVault + 1)
+        HH_CountSpecific.SetValue(CountSpecific + 1)
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -1016,13 +1157,17 @@ Function HH_ShowTeleportOptions()
         HH_OptionTeleportSound.SetValue(0)
     ElseIf TeleportOptionsBP == 14                                              ; TeleportOptions: Enable Teleport Sounds
         HH_OptionTeleportSound.SetValue(1)
-    ElseIf TeleportOptionsBP == 15                                              ; TeleportOptions: Advanced Options
+    ElseIf TeleportOptionsBP == 15                                              ; TeleportOptions: Disable Vault Boys
+        HH_OptionVaultBoy.SetValue(0)
+    ElseIf TeleportOptionsBP == 16                                              ; TeleportOptions: Enable Vault Boys
+        HH_OptionVaultBoy.SetValue(1)
+    ElseIf TeleportOptionsBP == 17                                              ; TeleportOptions: Advanced Options
         HH_ShowAdvancedOptions()
-    ElseIf TeleportOptionsBP == 16                                              ; TeleportOptions: Back
+    ElseIf TeleportOptionsBP == 18                                              ; TeleportOptions: Back
         HH_ShowMainMenu()
     EndIf
     
-    If TeleportOptionsBP >= 1 && TeleportOptionsBP < 15                         ; If player selected enable/disable button,
+    If TeleportOptionsBP >= 1 && TeleportOptionsBP < 17                         ; If player selected enable/disable button,
         If TeleportOptionsBP == 3 || TeleportOptionsBP == 6
             ; do not refresh submenu choices
         Else
@@ -1110,27 +1255,69 @@ EndFunction
 Function HH_ShowAdvancedOptions()
     Int AdvancedOptionsBP = HH_MenuMessageAdvancedOptions.Show()                ; AdvancedOptions shows and waits for player response
 
-    If AdvancedOptionsBP == 0                                                   ; AdvancedOptions: Enable Developer Messages
+    If AdvancedOptionsBP == 0                                                   ; AdvancedOptions: Enable Always CenterOnCell
+        HH_OptionAlwaysCOC.SetValue(1)
+        HH_ShowAdvancedOptions()
+    ElseIf AdvancedOptionsBP == 1                                               ; AdvancedOptions: Disable Always CenterOnCell
+        HH_OptionAlwaysCOC.SetValue(0)
+        HH_ShowAdvancedOptions()
+    ElseIf AdvancedOptionsBP == 2                                               ; AdvancedOptions: Enable Developer Messages
         HH_OptionDevTracking.SetValue(1)
         HH_ShowAdvancedOptions()
-    ElseIf AdvancedOptionsBP == 1                                               ; AdvancedOptions: Disable Developer Messages
+    ElseIf AdvancedOptionsBP == 3                                               ; AdvancedOptions: Disable Developer Messages
         HH_OptionDevTracking.SetValue(0)
         HH_ShowAdvancedOptions()
-    ElseIf AdvancedOptionsBP == 2                                               ; AdvancedOptions: Set X Offset
+    ElseIf AdvancedOptionsBP == 4                                               ; AdvancedOptions: Set Rewards
+        HH_ShowSetRewards()
+    ElseIf AdvancedOptionsBP == 5                                               ; AdvancedOptions: Set X Offset
         HH_ShowSetX()
-    ElseIf AdvancedOptionsBP == 3                                               ; AdvancedOptions: Set Y Offset
+    ElseIf AdvancedOptionsBP == 6                                               ; AdvancedOptions: Set Y Offset
         HH_ShowSetY()
-    ElseIf AdvancedOptionsBP == 4                                               ; AdvancedOptions: Set Z Offset
+    ElseIf AdvancedOptionsBP == 7                                               ; AdvancedOptions: Set Z Offset
         HH_ShowSetZ()
-    ElseIf AdvancedOptionsBP == 5                                               ; AdvancedOptions: Ship Happens
+    ElseIf AdvancedOptionsBP == 8                                               ; AdvancedOptions: Ship Happens
         Int ShipSize = pShipmentItemList.GetSize()
         Int i = 0
         While i < ShipSize
-            Player.AddItem(pShipmentItemList.GetAt(i))
+            Player.AddItem(pShipmentItemList.GetAt(i), 5)
             i += 1
         EndWhile
-    ElseIf AdvancedOptionsBP == 6                                               ; AdvancedOptions: Back
+    ElseIf AdvancedOptionsBP == 9                                               ; AdvancedOptions: Back
         HH_ShowTeleportOptions()
+    EndIf
+EndFunction
+
+; ------------------------------------------------------------------------------------------------------------
+; CUSTOM FUNCTION: HH SHOW SET REWARDS
+; ------------------------------------------------------------------------------------------------------------
+
+Function HH_ShowSetRewards()
+    Float MinNum
+    
+    CurrentStatus = HH_OptionSetRewards.GetValue()
+    Int SetX = HH_MenuMessageSetRewards.Show(CurrentStatus)                     ; SetRewards shows and waits for player response
+    
+    If SetX == 0                                                                ; SetRewards: 0 (Now, Spoilers On Next Hitch)
+        MinNum = 0
+    ElseIf SetX == 1                                                            ; SetRewards: 1
+        MinNum = 1
+    ElseIf SetX == 2                                                            ; SetRewards: 2
+        MinNum = 2
+    ElseIf SetX == 3                                                            ; SetRewards: 3
+        MinNum = 3
+    ElseIf SetX == 4                                                            ; SetRewards: 4
+        MinNum = 4
+    ElseIf SetX == 5                                                            ; SetRewards: 5 (Default)
+        MinNum = 5
+    ElseIf SetX == 6                                                            ; SetRewards: 10
+        MinNum = 10
+    ElseIf SetX == 7                                                            ; SetRewards: Back
+        HH_ShowAdvancedOptions()
+    EndIf
+    
+    If SetX < 7                                                                 ; If player selected a value,
+        HH_OptionSetRewards.SetValue(MinNum)                                    ; set rewards
+        HH_ShowSetRewards()                                                     ; and refresh the rewards menu on screen
     EndIf
 EndFunction
 
