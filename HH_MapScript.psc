@@ -3,54 +3,51 @@ Scriptname HH_MapScript extends ObjectReference
 
 ;/
 
-Fallout 4 Papyrus script by ThoraldGM | http://thoraldgm.com | Updated 20180122
+Fallout 4 Papyrus script by ThoraldGM | https://modforge.net | Updated 20180201
 Hitchhiker mod: https://www.nexusmods.com/fallout4/mods/29273
 
 SCRIPT SECTIONS:
 
-LINE 0055: PROPERTIES
-LINE 0271: ON READ
-LINE 0309: HH SHOW MAIN MENU
-LINE 0350: HH SHOW THE ANY MENU
-LINE 0376: HH SHOW THE SPECIFIC MENU
-LINE 0412: HH SHOW MENU BUS SHELTERS
-LINE 0434: HH SHOW MENU DINERS 1
-LINE 0458: HH SHOW MENU DINERS 2
-LINE 0482: HH SHOW MENU DINERS 3
-LINE 0504: HH SHOW MENU DIVES
-LINE 0526: HH SHOW MENU DRIVE INS
-LINE 0548: HH SHOW MENU FACTORIES
-LINE 0570: HH SHOW MENU FARMS
-LINE 0592: HH SHOW MENU JUNKYARDS 1
-LINE 0616: HH SHOW MENU JUNKYARDS 2
-LINE 0638: HH SHOW MENU MILITARY BASES 1
-LINE 0662: HH SHOW MENU MILITARY BASES 2
-LINE 0684: HH SHOW MENU MONUMENTS 1
-LINE 0708: HH SHOW MENU MONUMENTS 2
-LINE 0732: HH SHOW MENU MONUMENTS 3
-LINE 0754: HH SHOW MENU POWER LIFTS 1
-LINE 0795: HH SHOW MENU POWER LIFTS 2
-LINE 0836: HH SHOW MENU RED ROCKET 1
-LINE 0887: HH SHOW MENU RED ROCKET 2
-LINE 0938: HH SHOW MENU VAULTS
-LINE 0960: HH SHOW DLC OPTIONS
-LINE 0998: HH SHOW CAMERA OPTIONS
-LINE 1028: HH SHOW SET MAX
-LINE 1060: HH SHOW SET MIN
-LINE 1092: HH SHOW SET DURATION
-LINE 1124: HH SHOW TELEPORT OPTIONS
-LINE 1180: HH SHOW SET TIME
-LINE 1216: HH SHOW SET WEATHER
-LINE 1252: HH SHOW ADVANCED OPTIONS
-LINE 1291: HH SHOW SET REWARDS
-LINE 1325: HH SHOW SET X
-LINE 1357: HH SHOW SET Y
-LINE 1389: HH SHOW SET Z
-LINE 1421: HH SET MENU DEFAULTS
-LINE 1449: ON MENU OPEN CLOSE EVENT
+LINE 0052: PROPERTIES
+LINE 0241: ON READ
+LINE 0260: HH SHOW MAIN MENU
+LINE 0298: HH SHOW THE ANY MENU
+LINE 0325: HH SHOW THE SPECIFIC MENU
+LINE 0358: HH SHOW MENU BUS SHELTERS
+LINE 0380: HH SHOW MENU DINERS 1
+LINE 0404: HH SHOW MENU DINERS 2
+LINE 0428: HH SHOW MENU DINERS 3
+LINE 0450: HH SHOW MENU DIVES
+LINE 0472: HH SHOW MENU DRIVE INS
+LINE 0494: HH SHOW MENU FACTORIES
+LINE 0516: HH SHOW MENU FARMS
+LINE 0538: HH SHOW MENU JUNKYARDS 1
+LINE 0562: HH SHOW MENU JUNKYARDS 2
+LINE 0584: HH SHOW MENU MILITARY BASES 1
+LINE 0608: HH SHOW MENU MILITARY BASES 2
+LINE 0630: HH SHOW MENU MONUMENTS 1
+LINE 0654: HH SHOW MENU MONUMENTS 2
+LINE 0678: HH SHOW MENU MONUMENTS 3
+LINE 0700: HH SHOW MENU POWER LIFTS 1
+LINE 0741: HH SHOW MENU POWER LIFTS 2
+LINE 0782: HH SHOW MENU RED ROCKET 1
+LINE 0836: HH SHOW MENU RED ROCKET 2
+LINE 0884: HH SHOW MENU VAULTS
+LINE 0906: HH SHOW DLC OPTIONS
+LINE 0942: HH SHOW CAMERA OPTIONS
+LINE 0972: HH SHOW SET MAX
+LINE 1004: HH SHOW SET MIN
+LINE 1036: HH SHOW SET DURATION
+LINE 1068: HH SHOW TELEPORT OPTIONS
+LINE 1124: HH SHOW SET TIME
+LINE 1160: HH SHOW SET WEATHER
+LINE 1196: HH SHOW ADVANCED OPTIONS
+LINE 1242: HH SHOW SET REWARDS
+LINE 1276: HH SET MENU DEFAULTS
+LINE 1301: ON MENU OPEN CLOSE EVENT
 
 /;
- 
+
 ; ------------------------------------------------------------------------------------------------------------
 ; PROPERTIES
 ; ------------------------------------------------------------------------------------------------------------
@@ -58,16 +55,10 @@ LINE 1449: ON MENU OPEN CLOSE EVENT
 ; ************************************************************************************************************
 ; Player menu options:
 ; ************************************************************************************************************
-GlobalVariable Property HH_OptionAlwaysCOC Auto Mandatory
-{ Does player prefer CenterOnCell instead of MoveTo? }
 GlobalVariable Property HH_OptionCamMaxDistance Auto Mandatory
 { Max camera distance (default: 200, vanilla: 150) }
 GlobalVariable Property HH_OptionCamMinDistance Auto Mandatory
 { Min camera distance (default: 100, vanilla: 0) }
-GlobalVariable Property HH_OptionDevTracking Auto Mandatory
-{ Does player want dev messages? (default: no) }
-GlobalVariable Property HH_OptionExcludeDLC Auto Mandatory
-{ Turn all DLC on/off in random destinations (default: off) }
 GlobalVariable Property HH_OptionExcludeFH Auto Mandatory
 { Turn Far Harbor DLC on/off in destinations (default: off) }
 GlobalVariable Property HH_OptionExcludeNW Auto Mandatory
@@ -78,12 +69,6 @@ GlobalVariable Property HH_OptionFastTravel Auto Mandatory
 { Does player want loading screens? (default: yes) }
 GlobalVariable Property HH_OptionHeal Auto Mandatory
 { Does player want to heal after teleport? (default: no) }
-GlobalVariable Property HH_OptionOffsetX Auto Mandatory
-{ Player can choose X offset (default: 250) }
-GlobalVariable Property HH_OptionOffsetY Auto Mandatory
-{ Player can choose Y offset (default: 250) }
-GlobalVariable Property HH_OptionOffsetZ Auto Mandatory
-{ Player can choose Z offset (default: 500) }
 GlobalVariable Property HH_OptionSetRewards Auto Mandatory
 { How many hitches per category trigger rewards? (default: 5) }
 GlobalVariable Property HH_OptionSetTime Auto Mandatory
@@ -95,7 +80,7 @@ GlobalVariable Property HH_OptionSetWeather Auto Mandatory
 GlobalVariable Property HH_OptionSetWeatherPreference Auto Mandatory
 { Preferred game weather (player sets in menu) }
 GlobalVariable Property HH_OptionSitFurniture Auto Mandatory
-{ If destination is furniture, choose whether to use it (default: yes) }
+{ When destination is furniture, choose whether to use it (default: yes) }
 GlobalVariable Property HH_OptionSpinCamera Auto Mandatory
 { Does player want teleport to spin camera? (default: yes) }
 GlobalVariable Property HH_OptionSpinDuration Auto Mandatory
@@ -114,7 +99,6 @@ Message Property HH_MenuMessage Auto Const Mandatory
 { Main menu }
 Message Property HH_DestMessageAny Auto Const Mandatory
 { Any menu }
-
 Message Property HH_DestMessageSpecific Auto Const Mandatory
 { Specific menu }
 Message Property HH_DestMessageSpecificBusShelters Auto Const Mandatory
@@ -181,12 +165,6 @@ Message Property HH_MenuMessageAdvancedOptions Auto Const Mandatory
 { AdvancedOptions menu }
 Message Property HH_MenuMessageSetRewards Auto Const Mandatory
 { SetRewards menu }
-Message Property HH_MenuMessageSetX Auto Const Mandatory
-{ SetX menu }
-Message Property HH_MenuMessageSetY Auto Const Mandatory
-{ SetY menu }
-Message Property HH_MenuMessageSetZ Auto Const Mandatory
-{ SetZ menu }
 
 ; ************************************************************************************************************
 ; Rewards:
@@ -229,14 +207,6 @@ FormList Property pShipmentItemList Auto Const Mandatory
 { Vanilla CK list of all component shipments }
 GlobalVariable Property HH_IsSpinning Auto Mandatory
 { Is the camera currently spinning? }
-GlobalVariable Property HH_PlayerHasFH Auto Mandatory
-{ Does player have Far Harbor DLC? }
-GlobalVariable Property HH_PlayerHasNW Auto Mandatory
-{ Does player have Nuka-World DLC? }
-GlobalVariable Property HH_PlayerHasPC Auto Mandatory
-{ Is player gaming on a PC? (Prereq for COC option) }
-GlobalVariable Property HH_PlayerHasVT Auto Mandatory
-{ Does player have Vault-Tec DLC? }
 GlobalVariable Property HH_Category Auto Mandatory
 { Which category did player select? }
 GlobalVariable Property HH_TargetID Auto Mandatory
@@ -254,18 +224,18 @@ Actor Player                                                                    
 
 Float CurrentStatus                                                             ; Placeholder for current global values (for map menu)
 
-Int BUS_SHELTERS = 1                                                            ; Category ints (makes code easier to read)
-Int DINERS = 2
-Int DIVES = 3
-Int DRIVE_INS = 4
-Int FACTORIES = 5
-Int FARMS = 6
-Int JUNKYARDS = 7
-Int MILITARY_BASES = 8
-Int MONUMENTS = 9
-Int POWER_LIFTS = 10
-Int RED_ROCKETS = 11
-Int VAULTS = 12
+Int BUS_SHELTERS = 1 const                                                      ; Category ints (makes code easier to read)
+Int DINERS = 2 const
+Int DIVES = 3 const
+Int DRIVE_INS = 4 const
+Int FACTORIES = 5 const
+Int FARMS = 6 const
+Int JUNKYARDS = 7 const
+Int MILITARY_BASES = 8 const
+Int MONUMENTS = 9 const
+Int POWER_LIFTS = 10 const
+Int RED_ROCKETS = 11 const
+Int VAULTS = 12 const
 
 ; ------------------------------------------------------------------------------------------------------------
 ; EVENT: ON READ
@@ -273,32 +243,13 @@ Int VAULTS = 12
 
 Event OnRead()
     Player = Game.GetPlayer()                                                   ; Player actor
-    Bool FarHarborInstalled = Game.IsPluginInstalled("DLCCoast.esm")            ; Does player have Far Harbor DLC?
-    Bool NukaWorldInstalled = Game.IsPluginInstalled("DLCNukaWorld.esm")        ; Does player have Nuka-World DLC?
-    Bool VaultTecInstalled = Game.IsPluginInstalled("DLCworkshop03.esm")        ; Does player have Vault-Tec DLC?
-    
-    Utility.WaitMenuMode(0.1)                                                   ; Wait a moment before using DLC checks
-    
-    If FarHarborInstalled                                                       ; If Far Harbor DLC installed,
-        HH_PlayerHasFH.SetValue(1)                                              ; unlock FH destinations
-    EndIf
-    
-    If NukaWorldInstalled                                                       ; If Nuka-World DLC installed,                          
-        HH_PlayerHasNW.SetValue(1)                                              ; unlock NW destinations
-    EndIf
-    
-    If VaultTecInstalled                                                        ; If Vault-Tec DLC installed,
-        HH_PlayerHasVT.SetValue(1)                                              ; unlock VT destination
-    EndIf
-    
-    Utility.WaitMenuMode(0.1)                                                   ; Wait a moment before using actor
-    
+
     If GetContainer() != Player                                                 ; If hitchhiker map is not in inventory (on ground, etc)
         HH_ShowMenu.SetValue(0)                                                 ; do not show the menu
     EndIf
-    
+
     If HH_ShowMenu.GetValue() as Int == 1                                       ; Default value is zero so "awesome" message plays on add
-        Utility.WaitMenuMode(2)                                                 ; Give magazine a chance to fill menu background
+        Utility.WaitMenuMode(2)                                                 ; Give magazine a moment to fill menu background
         HH_ShowMainMenu()                                                       ; then show the main menu
     Else
         HH_ShowMenu.SetValue(1)                                                 ; Added to inventory, so show menu from now on
@@ -318,13 +269,10 @@ Function HH_ShowMainMenu()
     ElseIf MainButtonPressed == 1                                               ; Main: Choose Specific Location
         HH_ShowTheSpecificMenu()
     ElseIf MainButtonPressed == 2                                               ; Main: Force Time Now (after Pip-Boy closes)
-    
-        ; IMPORTANT: Game.PassTime has erratic results when menus are open, so wait until Pip-Boy is closed
-        
+        ; Advancing time should be done outside pipboy.
         UnregisterForMenuOpenCloseEvent("PipboyMenu")                           ; Cancel any previous button spams
         Utility.WaitMenuMode(0.1)                                               ; Give unregister a moment to work
         RegisterForMenuOpenCloseEvent("PipboyMenu")                             ; then handle time change in the event
-        
     ElseIf MainButtonPressed == 3                                               ; Main: Force Weather Now
         Int PrefWeather = HH_OptionSetWeatherPreference.GetValue() as Int
         Utility.WaitMenuMode(0.1)
@@ -339,7 +287,7 @@ Function HH_ShowMainMenu()
         HH_ShowTeleportOptions()
     ElseIf MainButtonPressed == 8                                               ; Main: Restore Defaults
         HH_SetMenuDefaults()
-        Utility.WaitMenuMode(0.1)       
+        Utility.WaitMenuMode(0.1)
         HH_ShowMainMenu()
     ElseIf MainButtonPressed == 9                                               ; Main: Exit Menu
         ; Exit Menu
@@ -352,15 +300,13 @@ EndFunction
 
 Function HH_ShowTheAnyMenu()
     Int Selected = HH_DestMessageAny.Show()                                     ; ANY menu shows and waits for player response
-    
+
     If Selected == 0                                                            ; If anywhere,
         Selected = Utility.RandomInt(1, 12)                                     ; roll a category for player
     EndIf
-    
-    If HH_OptionDevTracking.GetValue() as Int == 1
-        Debug.TraceAndBox("Hitchhiker: Selected category is " + Selected + ".")
-    EndIf
-    
+
+    HHQuestScript.HH_DebugTraceBox("Hitchhiker: Selected category is " + Selected + ".")
+
     If Selected > 0 && Selected <= 12
         HHQuestScript.HH_SetRandomDestination(Selected)
         Int CountRandom = HH_CountRandom.GetValue() as Int
@@ -378,7 +324,7 @@ EndFunction
 
 Function HH_ShowTheSpecificMenu()
     Int SpecButtonPressed = HH_DestMessageSpecific.Show()                       ; SPEC menu shows and waits for player response
-    
+
     If SpecButtonPressed == 0
         HH_ShowMenuBusShelters()
     ElseIf SpecButtonPressed == 1
@@ -414,7 +360,7 @@ EndFunction
 
 Function HH_ShowMenuBusShelters()
     Int Selected = HH_DestMessageSpecificBusShelters.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(BUS_SHELTERS)
         HH_TargetID.SetValue(Selected)
@@ -422,7 +368,7 @@ Function HH_ShowMenuBusShelters()
         Int CountBus = HH_CountBus.GetValue() as Int
         HH_CountBus.SetValue(CountBus + 1)
         HH_CountSpecific.SetValue(CountSpecific + 1)
-        
+
         Utility.WaitMenuMode(0.1)
         HHQuestScript.HH_StartHitching()
     Else
@@ -436,7 +382,7 @@ EndFunction
 
 Function HH_ShowMenuDiners1()
     Int Selected = HH_DestMessageSpecificDiners1.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(DINERS)
         HH_TargetID.SetValue(Selected)
@@ -460,7 +406,7 @@ EndFunction
 
 Function HH_ShowMenuDiners2()
     Int Selected = HH_DestMessageSpecificDiners2.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(DINERS)
         HH_TargetID.SetValue((Selected + 10))
@@ -484,7 +430,7 @@ EndFunction
 
 Function HH_ShowMenuDiners3()
     Int Selected = HH_DestMessageSpecificDiners3.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(DINERS)
         HH_TargetID.SetValue((Selected + 20))
@@ -506,7 +452,7 @@ EndFunction
 
 Function HH_ShowMenuDives()
     Int Selected = HH_DestMessageSpecificDives.Show()
-    
+
     If Selected >= 0 && Selected <= 12
         HH_Category.SetValue(DIVES)
         HH_TargetID.SetValue(Selected)
@@ -528,7 +474,7 @@ EndFunction
 
 Function HH_ShowMenuDriveIns()
     Int Selected = HH_DestMessageSpecificDriveIns.Show()
-    
+
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(DRIVE_INS)
         HH_TargetID.SetValue(Selected)
@@ -550,7 +496,7 @@ EndFunction
 
 Function HH_ShowMenuFactories()
     Int Selected = HH_DestMessageSpecificFactories.Show()
-    
+
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(FACTORIES)
         HH_TargetID.SetValue(Selected)
@@ -572,7 +518,7 @@ EndFunction
 
 Function HH_ShowMenuFarms()
     Int Selected = HH_DestMessageSpecificFarms.Show()
-    
+
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(FARMS)
         HH_TargetID.SetValue(Selected)
@@ -594,7 +540,7 @@ EndFunction
 
 Function HH_ShowMenuJunkyards1()
     Int Selected = HH_DestMessageSpecificJunkyards1.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(JUNKYARDS)
         HH_TargetID.SetValue(Selected)
@@ -618,7 +564,7 @@ EndFunction
 
 Function HH_ShowMenuJunkyards2()
     Int Selected = HH_DestMessageSpecificJunkyards2.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(JUNKYARDS)
         HH_TargetID.SetValue((Selected + 10))
@@ -640,7 +586,7 @@ EndFunction
 
 Function HH_ShowMenuMilitaryBases1()
     Int Selected = HH_DestMessageSpecificMilitaryBases1.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MILITARY_BASES)
         HH_TargetID.SetValue(Selected)
@@ -664,7 +610,7 @@ EndFunction
 
 Function HH_ShowMenuMilitaryBases2()
     Int Selected = HH_DestMessageSpecificMilitaryBases2.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MILITARY_BASES)
         HH_TargetID.SetValue((Selected + 10))
@@ -686,7 +632,7 @@ EndFunction
 
 Function HH_ShowMenuMonuments1()
     Int Selected = HH_DestMessageSpecificMonuments1.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MONUMENTS)
         HH_TargetID.SetValue(Selected)
@@ -710,7 +656,7 @@ EndFunction
 
 Function HH_ShowMenuMonuments2()
     Int Selected = HH_DestMessageSpecificMonuments2.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(MONUMENTS)
         HH_TargetID.SetValue((Selected + 10))
@@ -734,8 +680,8 @@ EndFunction
 
 Function HH_ShowMenuMonuments3()
     Int Selected = HH_DestMessageSpecificMonuments3.Show()
-    
-    If Selected >= 0 && Selected <= 9
+
+    If Selected >= 0 && Selected <= 10
         HH_Category.SetValue(MONUMENTS)
         HH_TargetID.SetValue((Selected + 20))
         Int CountSpecific = HH_CountSpecific.GetValue() as Int
@@ -756,9 +702,9 @@ EndFunction
 
 Function HH_ShowMenuPowerLifts1()
     ; Power lifts are oldest part of file. Note the extra work because ABC order != TargetID order.
-    
+
     Int Selected = HH_DestMessageSpecificPowerLifts1.Show()
-    
+
     If Selected == 0
         HH_TargetID.SetValue(11)
     ElseIf Selected == 1
@@ -778,7 +724,7 @@ Function HH_ShowMenuPowerLifts1()
     Else
         HH_ShowTheSpecificMenu()
     EndIf
-    
+
     If Selected >= 0 && Selected <= 6
         HH_Category.SetValue(POWER_LIFTS)
         Int CountSpecific = HH_CountSpecific.GetValue() as Int
@@ -797,9 +743,9 @@ EndFunction
 
 Function HH_ShowMenuPowerLifts2()
     ; Power lifts are oldest part of file. Note the extra work because ABC order != TargetID order.
-    
+
     Int Selected = HH_DestMessageSpecificPowerLifts2.Show()
-    
+
     If Selected == 0
         HH_TargetID.SetValue(10)
     ElseIf Selected == 1
@@ -819,7 +765,7 @@ Function HH_ShowMenuPowerLifts2()
     Else
         HH_ShowMenuPowerLifts1()
     EndIf
-    
+
     If Selected >= 0 && Selected <= 7
         HH_Category.SetValue(POWER_LIFTS)
         Int CountSpecific = HH_CountSpecific.GetValue() as Int
@@ -838,9 +784,9 @@ EndFunction
 
 Function HH_ShowMenuRedRocket1()
     ; Red Rockets are oldest part of file. Note the extra work because ABC order != TargetID order.
-    
+
     Int Selected = HH_DestMessageSpecificRedRocket1.Show()
-    
+
     If Selected == 0
         HH_TargetID.SetValue(16)
     ElseIf Selected == 1
@@ -856,21 +802,21 @@ Function HH_ShowMenuRedRocket1()
     ElseIf Selected == 6
         HH_TargetID.SetValue(5)
     ElseIf Selected == 7
-        HH_TargetID.SetValue(18)
-    ElseIf Selected == 8
         HH_TargetID.SetValue(8)
-    ElseIf Selected == 9
+    ElseIf Selected == 8
         HH_TargetID.SetValue(14)
-    ElseIf Selected == 10
+    ElseIf Selected == 9
         HH_TargetID.SetValue(1)
-    ElseIf Selected == 11
+    ElseIf Selected == 10
         HH_TargetID.SetValue(3)
+    ElseIf Selected == 11
+        HH_TargetID.SetValue(18)
     ElseIf Selected == 12
         HH_ShowMenuRedRocket2()
     Else
         HH_ShowTheSpecificMenu()
     EndIf
-    
+
     If Selected >= 0 && Selected <= 11
         HH_Category.SetValue(RED_ROCKETS)
         Int CountSpecific = HH_CountSpecific.GetValue() as Int
@@ -889,9 +835,9 @@ EndFunction
 
 Function HH_ShowMenuRedRocket2()
     ; Red Rockets are oldest part of file. Note the extra work because ABC order != TargetID order.
-    
+
     Int Selected = HH_DestMessageSpecificRedRocket2.Show()
-    
+
     If Selected == 0
         HH_TargetID.SetValue(10)
     ElseIf Selected == 1
@@ -921,7 +867,7 @@ Function HH_ShowMenuRedRocket2()
     Else
         HH_ShowMenuRedRocket1()
     EndIf
-    
+
     If Selected >= 0 && Selected <= 12
         HH_Category.SetValue(RED_ROCKETS)
         Int CountSpecific = HH_CountSpecific.GetValue() as Int
@@ -940,7 +886,7 @@ EndFunction
 
 Function HH_ShowMenuVaults()
     Int Selected = HH_DestMessageSpecificVaults.Show()
-    
+
     If Selected >= 0 && Selected <= 9
         HH_Category.SetValue(VAULTS)
         HH_TargetID.SetValue(Selected)
@@ -959,17 +905,15 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 ; CUSTOM FUNCTION: HH SHOW DLC OPTIONS
 ; ------------------------------------------------------------------------------------------------------------
-    
+
 Function HH_ShowDLCOptions()
     Int DLCOptionsBP = HH_MenuMessageDLCOptions.Show()                          ; DLCOptions shows and waits for player response
 
     If DLCOptionsBP == 0                                                        ; DLCOptions: Disable All DLC Randoms
-        HH_OptionExcludeDLC.SetValue(1)
         HH_OptionExcludeFH.SetValue(1)
         HH_OptionExcludeNW.SetValue(1)
         HH_OptionExcludeVT.SetValue(1)
     ElseIf DLCOptionsBP == 1                                                    ; DLCOptions: Enable All DLC Randoms
-        HH_OptionExcludeDLC.SetValue(0)
         HH_OptionExcludeFH.SetValue(0)
         HH_OptionExcludeNW.SetValue(0)
         HH_OptionExcludeVT.SetValue(0)
@@ -988,7 +932,7 @@ Function HH_ShowDLCOptions()
     ElseIf DLCOptionsBP == 8                                                    ; DLCOptions: Back
         HH_ShowMainMenu()
     EndIf
-    
+
     If DLCOptionsBP >= 0 && DLCOptionsBP < 8                                    ; If player selected enable/disable button,
         HH_ShowDLCOptions()                                                     ; refresh the DLCOptions menu on screen
     EndIf
@@ -997,7 +941,7 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 ; CUSTOM FUNCTION: HH SHOW CAMERA OPTIONS
 ; ------------------------------------------------------------------------------------------------------------
-    
+
 Function HH_ShowCameraOptions()
     Int CameraOptionsBP = HH_MenuMessageCameraOptions.Show()                    ; CameraOptions shows and waits for player response
 
@@ -1018,7 +962,7 @@ Function HH_ShowCameraOptions()
     ElseIf CameraOptionsBP == 7                                                 ; CameraOptions: Back
         HH_ShowMainMenu()
     EndIf
-    
+
     If CameraOptionsBP >= 0 && CameraOptionsBP < 4                              ; If player selected enable/disable button,
         HH_ShowCameraOptions()                                                  ; refresh the CameraOptions menu on screen
     EndIf
@@ -1027,13 +971,13 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 ; CUSTOM FUNCTION: HH SHOW SET MAX
 ; ------------------------------------------------------------------------------------------------------------
-    
+
 Function HH_ShowSetMax()
     Float MaxNum
-    
-    CurrentStatus = HH_OptionCamMaxDistance.GetValue() 
+
+    CurrentStatus = HH_OptionCamMaxDistance.GetValue()
     Int SetMaxBP = HH_MenuMessageSetMax.Show(CurrentStatus)                     ; SetMax shows and waits for player response
-    
+
     If SetMaxBP == 0                                                            ; SetMax: 150 (vanilla default)
         MaxNum = 150
     ElseIf SetMaxBP == 1                                                        ; SetMax: 200 (mod default)
@@ -1049,7 +993,7 @@ Function HH_ShowSetMax()
     ElseIf SetMaxBP == 6                                                        ; SetMax: Back
         HH_ShowCameraOptions()
     EndIf
-    
+
     If SetMaxBP < 6                                                             ; If player selected a value,
         HH_OptionCamMaxDistance.SetValue(MaxNum)                                ; set camera max distance
         HH_ShowSetMax()                                                         ; and refresh the SetMax menu on screen
@@ -1059,13 +1003,13 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 ; CUSTOM FUNCTION: HH SHOW SET MIN
 ; ------------------------------------------------------------------------------------------------------------
-    
+
 Function HH_ShowSetMin()
     Float MinNum
-    
+
     CurrentStatus = HH_OptionCamMinDistance.GetValue()
     Int SetMinBP = HH_MenuMessageSetMin.Show(CurrentStatus)                     ; SetMin shows and waits for player response
-    
+
     If SetMinBP == 0                                                            ; SetMin: 0 (vanilla default)
         MinNum = 0
     ElseIf SetMinBP == 1                                                        ; SetMin: 100 (mod default)
@@ -1081,7 +1025,7 @@ Function HH_ShowSetMin()
     ElseIf SetMinBP == 6                                                        ; SetMin: Back
         HH_ShowCameraOptions()
     EndIf
-    
+
     If SetMinBP < 6                                                             ; If player selected a value,
         HH_OptionCamMinDistance.SetValue(MinNum)                                ; set camera min distance
         HH_ShowSetMin()                                                         ; and refresh the SetMin menu on screen
@@ -1094,10 +1038,10 @@ EndFunction
 
 Function HH_ShowSetDuration()
     Float MinNum
-    
+
     CurrentStatus = HH_OptionSpinDuration.GetValue()
     Int SetMinBP = HH_MenuMessageSetDuration.Show(CurrentStatus)                ; SetDuration shows and waits for player response
-    
+
     If SetMinBP == 0                                                            ; SetDuration: 10
         MinNum = 10
     ElseIf SetMinBP == 1                                                        ; SetDuration: 15
@@ -1113,7 +1057,7 @@ Function HH_ShowSetDuration()
     ElseIf SetMinBP == 6                                                        ; SetDuration: Back
         HH_ShowCameraOptions()
     EndIf
-    
+
     If SetMinBP < 6                                                             ; If player selected a value,
         HH_OptionSpinDuration.SetValue(MinNum)                                  ; set camera spin duration
         HH_ShowSetDuration()                                                    ; and refresh the SetDuration menu on screen
@@ -1166,7 +1110,7 @@ Function HH_ShowTeleportOptions()
     ElseIf TeleportOptionsBP == 18                                              ; TeleportOptions: Back
         HH_ShowMainMenu()
     EndIf
-    
+
     If TeleportOptionsBP >= 1 && TeleportOptionsBP < 17                         ; If player selected enable/disable button,
         If TeleportOptionsBP == 3 || TeleportOptionsBP == 6
             ; do not refresh submenu choices
@@ -1179,13 +1123,13 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 ; CUSTOM FUNCTION: HH SHOW SET TIME
 ; ------------------------------------------------------------------------------------------------------------
-    
+
 Function HH_ShowSetTime()
     Float PrefTime
-    
-    CurrentStatus = HH_OptionSetTimePreference.GetValue() 
+
+    CurrentStatus = HH_OptionSetTimePreference.GetValue()
     Int SetTimeBP = HH_MenuMessageSetTime.Show(CurrentStatus)                   ; SetTime shows and waits for player response
-    
+
     If SetTimeBP == 0                                                           ; SetTime: 3 AM
         PrefTime = 3
     ElseIf SetTimeBP == 1                                                       ; SetTime: 6 AM
@@ -1205,7 +1149,7 @@ Function HH_ShowSetTime()
     ElseIf SetTimeBP == 8                                                       ; SetTime: Back
         HH_ShowTeleportOptions()
     EndIf
-    
+
     If SetTimeBP < 8                                                            ; If player selected a value,
         HH_OptionSetTimePreference.SetValue(PrefTime)                           ; set preferred time
         HH_ShowSetTime()                                                        ; and refresh the SetTime menu on screen
@@ -1215,13 +1159,13 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 ; CUSTOM FUNCTION: HH SHOW SET WEATHER
 ; ------------------------------------------------------------------------------------------------------------
-    
+
 Function HH_ShowSetWeather()
     Float PrefWeather
-    
-    CurrentStatus = HH_OptionSetWeatherPreference.GetValue() 
+
+    CurrentStatus = HH_OptionSetWeatherPreference.GetValue()
     Int SetWeatherBP = HH_MenuMessageSetWeather.Show(CurrentStatus)             ; SetWeather shows and waits for player response
-    
+
     If SetWeatherBP == 0                                                        ; SetWeather: CommonwealthClear
         PrefWeather = 1
     ElseIf SetWeatherBP == 1                                                    ; SetWeather: CommonwealthDusty
@@ -1241,7 +1185,7 @@ Function HH_ShowSetWeather()
     ElseIf SetWeatherBP == 8                                                    ; SetWeather: Back
         HH_ShowTeleportOptions()
     EndIf
-    
+
     If SetWeatherBP < 8                                                         ; If player selected a value,
         HH_OptionSetWeatherPreference.SetValue(PrefWeather)                     ; set preferred weather
         HH_ShowSetWeather()                                                     ; and refresh the SetWeather menu on screen
@@ -1256,25 +1200,23 @@ Function HH_ShowAdvancedOptions()
     Int AdvancedOptionsBP = HH_MenuMessageAdvancedOptions.Show()                ; AdvancedOptions shows and waits for player response
 
     If AdvancedOptionsBP == 0                                                   ; AdvancedOptions: Enable Always CenterOnCell
-        HH_OptionAlwaysCOC.SetValue(1)
-        HH_ShowAdvancedOptions()
+    ;empty
     ElseIf AdvancedOptionsBP == 1                                               ; AdvancedOptions: Disable Always CenterOnCell
-        HH_OptionAlwaysCOC.SetValue(0)
-        HH_ShowAdvancedOptions()
+    ;empty
     ElseIf AdvancedOptionsBP == 2                                               ; AdvancedOptions: Enable Developer Messages
-        HH_OptionDevTracking.SetValue(1)
+        HHQuestScript.HH_EnableDebug()
         HH_ShowAdvancedOptions()
     ElseIf AdvancedOptionsBP == 3                                               ; AdvancedOptions: Disable Developer Messages
-        HH_OptionDevTracking.SetValue(0)
+        HHQuestScript.HH_DisableDebug()
         HH_ShowAdvancedOptions()
     ElseIf AdvancedOptionsBP == 4                                               ; AdvancedOptions: Set Rewards
         HH_ShowSetRewards()
-    ElseIf AdvancedOptionsBP == 5                                               ; AdvancedOptions: Set X Offset
-        HH_ShowSetX()
-    ElseIf AdvancedOptionsBP == 6                                               ; AdvancedOptions: Set Y Offset
-        HH_ShowSetY()
-    ElseIf AdvancedOptionsBP == 7                                               ; AdvancedOptions: Set Z Offset
-        HH_ShowSetZ()
+    ElseIf AdvancedOptionsBP == 5                                               ; AdvancedOptions: Set X Offset (XYZ removed in v2.0 refactoring)
+    ;empty
+    ElseIf AdvancedOptionsBP == 6                                               ; AdvancedOptions: Set Y Offset (XYZ removed in v2.0 refactoring)
+    ;empty
+    ElseIf AdvancedOptionsBP == 7                                               ; AdvancedOptions: Set Z Offset (XYZ removed in v2.0 refactoring)
+    ;empty
     ElseIf AdvancedOptionsBP == 8                                               ; AdvancedOptions: Ship Happens
         Int ShipSize = pShipmentItemList.GetSize()
         Int i = 0
@@ -1282,7 +1224,16 @@ Function HH_ShowAdvancedOptions()
             Player.AddItem(pShipmentItemList.GetAt(i), 5)
             i += 1
         EndWhile
-    ElseIf AdvancedOptionsBP == 9                                               ; AdvancedOptions: Back
+        
+    ; FURNITURE TOGGLE WOULD NOT FIT IN TELEPORT OPTIONS MENU BECAUSE CONDITIONALS IN THAT MENU MAXED OUT NUMBER OF AVAILABLE OPTIONS
+    
+    ElseIf AdvancedOptionsBP == 9                                                ; AdvancedOptions: Sit At Nearby Furniture When Arriving
+        HH_OptionSitFurniture.SetValue(1)
+        HH_ShowAdvancedOptions()
+    ElseIf AdvancedOptionsBP == 10                                               ; AdvancedOptions: Don't Sit At Nearby Furniture When Arriving
+        HH_OptionSitFurniture.SetValue(0)
+        HH_ShowAdvancedOptions()
+    ElseIf AdvancedOptionsBP == 11                                               ; AdvancedOptions: Back
         HH_ShowTeleportOptions()
     EndIf
 EndFunction
@@ -1293,10 +1244,10 @@ EndFunction
 
 Function HH_ShowSetRewards()
     Float MinNum
-    
+
     CurrentStatus = HH_OptionSetRewards.GetValue()
     Int SetX = HH_MenuMessageSetRewards.Show(CurrentStatus)                     ; SetRewards shows and waits for player response
-    
+
     If SetX == 0                                                                ; SetRewards: 0 (Now, Spoilers On Next Hitch)
         MinNum = 0
     ElseIf SetX == 1                                                            ; SetRewards: 1
@@ -1314,106 +1265,10 @@ Function HH_ShowSetRewards()
     ElseIf SetX == 7                                                            ; SetRewards: Back
         HH_ShowAdvancedOptions()
     EndIf
-    
+
     If SetX < 7                                                                 ; If player selected a value,
         HH_OptionSetRewards.SetValue(MinNum)                                    ; set rewards
         HH_ShowSetRewards()                                                     ; and refresh the rewards menu on screen
-    EndIf
-EndFunction
-
-; ------------------------------------------------------------------------------------------------------------
-; CUSTOM FUNCTION: HH SHOW SET X
-; ------------------------------------------------------------------------------------------------------------
-
-Function HH_ShowSetX()
-    Float MinNum
-    
-    CurrentStatus = HH_OptionOffsetX.GetValue()
-    Int SetX = HH_MenuMessageSetX.Show(CurrentStatus)                           ; SetX shows and waits for player response
-    
-    If SetX == 0                                                                ; SetX: 0
-        MinNum = 0
-    ElseIf SetX == 1                                                            ; SetX: 100
-        MinNum = 100
-    ElseIf SetX == 2                                                            ; SetX: 250 (mod default)
-        MinNum = 250
-    ElseIf SetX == 3                                                            ; SetX: 500
-        MinNum = 500
-    ElseIf SetX == 4                                                            ; SetX: 750
-        MinNum = 750
-    ElseIf SetX == 5                                                            ; SetX: 1000
-        MinNum = 1000
-    ElseIf SetX == 6                                                            ; SetX: Back
-        HH_ShowAdvancedOptions()
-    EndIf
-    
-    If SetX < 6                                                                 ; If player selected a value,
-        HH_OptionOffsetX.SetValue(MinNum)                                       ; set X offset
-        HH_ShowSetX()                                                           ; and refresh the SetX menu on screen
-    EndIf
-EndFunction
-
-; ------------------------------------------------------------------------------------------------------------
-; CUSTOM FUNCTION: HH SHOW SET Y
-; ------------------------------------------------------------------------------------------------------------
-
-Function HH_ShowSetY()
-    Float MinNum
-    
-    CurrentStatus = HH_OptionOffsetY.GetValue()
-    Int SetY = HH_MenuMessageSetY.Show(CurrentStatus)                           ; SetY shows and waits for player response
-    
-    If SetY == 0                                                                ; SetY: 0
-        MinNum = 0
-    ElseIf SetY == 1                                                            ; SetY: 100
-        MinNum = 100
-    ElseIf SetY == 2                                                            ; SetY: 250 (mod default)
-        MinNum = 250
-    ElseIf SetY == 3                                                            ; SetY: 500
-        MinNum = 500
-    ElseIf SetY == 4                                                            ; SetY: 750
-        MinNum = 750
-    ElseIf SetY == 5                                                            ; SetY: 1000
-        MinNum = 1000
-    ElseIf SetY == 6                                                            ; SetY: Back
-        HH_ShowAdvancedOptions()
-    EndIf
-    
-    If SetY < 6                                                                 ; If player selected a value,
-        HH_OptionOffsetY.SetValue(MinNum)                                       ; set Y offset
-        HH_ShowSetY()                                                           ; and refresh the SetY menu on screen
-    EndIf
-EndFunction
-
-; ------------------------------------------------------------------------------------------------------------
-; CUSTOM FUNCTION: HH SHOW SET Z
-; ------------------------------------------------------------------------------------------------------------
-
-Function HH_ShowSetZ()
-    Float MinNum
-    
-    CurrentStatus = HH_OptionOffsetZ.GetValue()
-    Int SetZ = HH_MenuMessageSetZ.Show(CurrentStatus)                           ; SetZ shows and waits for player response
-    
-    If SetZ == 0                                                                ; SetZ: 0
-        MinNum = 0
-    ElseIf SetZ == 1                                                            ; SetZ: 100
-        MinNum = 100
-    ElseIf SetZ == 2                                                            ; SetZ: 250
-        MinNum = 250
-    ElseIf SetZ == 3                                                            ; SetZ: 500 (mod default)
-        MinNum = 500
-    ElseIf SetZ == 4                                                            ; SetZ: 750
-        MinNum = 750
-    ElseIf SetZ == 5                                                            ; SetZ: 1000
-        MinNum = 1000
-    ElseIf SetZ == 6                                                            ; SetZ: Back
-        HH_ShowAdvancedOptions()
-    EndIf
-    
-    If SetZ < 6                                                                 ; If player selected a value,
-        HH_OptionOffsetZ.SetValue(MinNum)                                       ; set Z offset
-        HH_ShowSetZ()                                                           ; and refresh the SetZ menu on screen
     EndIf
 EndFunction
 
@@ -1422,17 +1277,14 @@ EndFunction
 ; ------------------------------------------------------------------------------------------------------------
 
 Function HH_SetMenuDefaults()
+    HHQuestScript.HH_DisableDebug()
     HH_OptionCamMaxDistance.SetValue(200)
     HH_OptionCamMinDistance.SetValue(100)
-    HH_OptionDevTracking.SetValue(0)
-    HH_OptionExcludeDLC.SetValue(1)
+    HHQuestScript.HH_DisableDebug()
     HH_OptionExcludeFH.SetValue(1)
     HH_OptionExcludeNW.SetValue(1)
     HH_OptionExcludeVT.SetValue(1)
     HH_OptionFastTravel.SetValue(1)
-    HH_OptionOffsetX.SetValue(250)
-    HH_OptionOffsetY.SetValue(250)
-    HH_OptionOffsetZ.SetValue(500)
     HH_OptionSetTime.SetValue(0)
     HH_OptionSetTimePreference.SetValue(9)
     HH_OptionSetWeather.SetValue(0)
@@ -1451,11 +1303,10 @@ EndFunction
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
     UnregisterForMenuOpenCloseEvent("PipboyMenu")                               ; Cancel player button spams
-    
+
     If (asMenuName== "PipboyMenu")                                              ; When the Pip-Boy
         If (!abOpening)                                                         ; closes,
             Int PrefTime = HH_OptionSetTimePreference.GetValue() as Int         ; get player's preferred time
-            Utility.Wait(5)
             HHQuestScript.HH_ForceTime(PrefTime)                                ; Send time to ForceTime function
         EndIf
     EndIf
